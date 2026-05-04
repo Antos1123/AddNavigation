@@ -1,0 +1,15 @@
+name: AddNavigation
+version: 1.0.0
+main: kr.antos112.addnavigation.AddNavigation
+api-version: '1.21'
+author: Antos112
+description: A* 기반 네비게이션 플러그인
+commands:
+  navigation:
+    description: AddNavigation main command
+    usage: /navigation
+    aliases: [nav, 길찾기]
+permissions:
+  addnavigation.admin:
+    description: Allows full control of AddNavigation
+    default: op

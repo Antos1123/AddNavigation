@@ -1,0 +1,66 @@
+
+navigation:
+  # 목적지에서 이 거리(m) 이내로 들어오면 자동 종료됩니다.
+  auto-stop-distance: 5.0
+
+  # 경로 재계산 주기(틱). 낮을수록 반응이 빠르지만 CPU 사용량이 늘어납니다.
+  repath-interval-ticks: 10
+
+  # 플레이어가 이 거리(m) 이상 이동했을 때 경로를 다시 계산합니다.
+  repath-move-threshold: 1.0
+
+  # A* 탐색에서 허용하는 최대 노드 수입니다.
+  max-search-nodes: 12000
+
+  # 한 칸 위로 올라갈 수 있는 최대 높이입니다.
+  max-step-height: 1
+
+  # 아래로 떨어질 수 있는 최대 높이입니다.
+  max-drop-height: 3
+
+display:
+  # 경로를 표시할 때 사용할 화살표 문자입니다.
+  # 예: ▶, ➤, ➜
+  arrow-character: "➤"
+
+  # 화살표 색상(Adventure 색상 이름 또는 HEX)
+  color: "#7CFF4A"
+
+  # 화살표가 표시되는 높이 오프셋입니다. 플레이어 발 위치 기준입니다.
+  height-offset: 1.35
+
+  # 화살표 간격(블록 단위). 너무 작으면 엔티티가 많아집니다.
+  arrow-spacing: 1.75
+
+  # 한 번에 렌더링할 최대 화살표 수입니다.
+  max-arrows: 32
+
+  # TextDisplay 배경 투명 처리 여부
+  transparent-background: true
+
+  # 그림자 제거
+  shadowed: false
+
+database:
+  # 저장 방식: sqlite
+  type: sqlite
+
+  sqlite:
+    # plugins/AddNavigation/navigation.db 로 저장됩니다.
+    file: navigation.db
+
+messages:
+  prefix: "&7[&aAddNavigation&7] &f"
+  no-permission: "&c권한이 없습니다."
+  player-only: "&c플레이어만 사용할 수 있습니다."
+  not-found: "&c대상을 찾을 수 없습니다."
+  point-not-found: "&c해당 네비게이션 이름을 찾을 수 없습니다."
+  point-exists: "&c이미 같은 이름의 네비게이션이 있습니다."
+  path-not-found: "&c경로를 찾지 못했습니다"
+  saved: "&a저장했습니다."
+  removed: "&a삭제했습니다."
+  started: "&a네비게이션을 시작했습니다."
+  stopped: "&e네비게이션을 종료했습니다."
+  completed: "&a목적지에 도착했습니다."
+  world-mismatch: "&c플레이어 월드와 목적지 월드가 다릅니다."
+  reload: "&a설정을 다시 불러왔습니다."
