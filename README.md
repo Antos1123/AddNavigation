@@ -188,42 +188,34 @@ softdepend:
   - AddNavigation
 ```
 
-### API 가져오기
+### Maven 의존성
 
-AddNavigation의 API를 사용하려면 먼저 프로젝트에 등록을 해주셔야 합니다
+배포 저장소에 올리지 않고 로컬 개발에서만 쓸 경우, 먼저 AddNavigation jar를 로컬 Maven 저장소에 설치합니다.
 
-gradle
-```gradle
-dependencyResolutionManagement {
-	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-	repositories {
-		mavenCentral()
-		maven { url 'https://jitpack.io' }
-	}
-}
-
-dependencies {
-	implementation 'com.github.Antos1123:AddNavigation:Tag'
-}
+```bash
+mvn install:install-file \
+  -Dfile=AddNavigation-1.0.0.jar \
+  -DgroupId=kr.antos112 \
+  -DartifactId=AddNavigation \
+  -Dversion=1.0.0 \
+  -Dpackaging=jar
 ```
 
-maven
-```xml
-<repositories>
-	<repository>
-		<id>jitpack.io</id>
-		<url>https://jitpack.io</url>
-	</repository>
-</repositories>
+그 다음 외부 플러그인의 `pom.xml`에 추가합니다.
 
+```xml
 <dependency>
-	<groupId>com.github.Antos1123</groupId>
-	<artifactId>AddNavigation</artifactId>
-	<version>Tag</version>
+    <groupId>kr.antos112</groupId>
+    <artifactId>AddNavigation</artifactId>
+    <version>1.0.0</version>
+    <scope>provided</scope>
 </dependency>
 ```
 
-`scope`는 반드시 `provided`를 권장합니다. 서버에는 AddNavigation 플러그인 jar가 따로 들어가기 때문입니다
+`scope`는 반드시 `provided`를 권장합니다. 서버에는 AddNavigation 플러그인 jar가 따로 들어가기 때문입니다.
+
+## API 가져오기
+
 `depend: [AddNavigation]`를 사용한다면 가장 간단하게 가져올 수 있습니다.
 
 ```java
