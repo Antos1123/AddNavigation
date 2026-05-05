@@ -200,7 +200,7 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-        implementation 'com.github.Antos1123:AddNavigation:Tag'
+        implementation 'com.github.Antos1123:AddNavigation:1.0'
 }
 ```
 
@@ -216,7 +216,7 @@ maven
 <dependency>
     <groupId>com.github.Antos1123</groupId>
     <artifactId>AddNavigation</artifactId>
-    <version>Tag</version>
+    <version>1.0</version>
 </dependency>
 ```
 `depend: [AddNavigation]`를 사용한다면 가장 간단하게 가져올 수 있습니다.
