@@ -192,35 +192,35 @@ softdepend:
 
 AddNavigation의 API를 사용하려면 먼저 프로젝트에 등록을 해주셔야 합니다
 
-graddle
+gradle
 ```gradle
 dependencyResolutionManagement {
-		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-		repositories {
-			mavenCentral()
-			maven { url 'https://jitpack.io' }
-		}
+	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+	repositories {
+		mavenCentral()
+		maven { url 'https://jitpack.io' }
 	}
+}
 
 dependencies {
-	        implementation 'com.github.Antos1123:AddNavigation:Tag'
-	}
+	implementation 'com.github.Antos1123:AddNavigation:Tag'
+}
 ```
 
 maven
 ```xml
 <repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
+	<repository>
+		<id>jitpack.io</id>
+		<url>https://jitpack.io</url>
+	</repository>
+</repositories>
 
 <dependency>
-	    <groupId>com.github.Antos1123</groupId>
-	    <artifactId>AddNavigation</artifactId>
-	    <version>Tag</version>
-	</dependency>
+	<groupId>com.github.Antos1123</groupId>
+	<artifactId>AddNavigation</artifactId>
+	<version>Tag</version>
+</dependency>
 ```
 
 `scope`는 반드시 `provided`를 권장합니다. 서버에는 AddNavigation 플러그인 jar가 따로 들어가기 때문입니다
