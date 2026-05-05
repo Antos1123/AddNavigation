@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 /**
- * Integer block position used by the A* pathfinder.
+ * A* 경로 탐색기에서 사용하는 정수 블록 위치입니다.
  *
  * @param x block X
  * @param y block Y
@@ -13,7 +13,7 @@ import org.bukkit.World;
 public record BlockPos(int x, int y, int z) {
 
     /**
-     * Converts this block position to a centered Bukkit location.
+     * 이 블록 위치를 Bukkit의 중앙 위치로 변환합니다.
      *
      * @param world target world
      * @return location centered inside the block

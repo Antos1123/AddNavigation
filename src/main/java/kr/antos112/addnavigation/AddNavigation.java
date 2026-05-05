@@ -15,7 +15,7 @@ import java.io.File;
 import java.util.Objects;
 
 /**
- * Main plugin class for AddNavigation.
+ * AddNavigation의 메인 플러그인 클래스
  */
 public final class AddNavigation extends JavaPlugin {
     private static AddNavigation instance;
@@ -26,7 +26,7 @@ public final class AddNavigation extends JavaPlugin {
     private NavigationSettings settings;
 
     /**
-     * Returns the active plugin instance.
+     * 동작중인 플러그인의 인스턴스를 반환합니다
      *
      * @return loaded plugin instance
      */
@@ -35,7 +35,7 @@ public final class AddNavigation extends JavaPlugin {
     }
 
     /**
-     * Enables the plugin, loads settings, and registers command/listener hooks.
+     * 플러그인을 활성화하고, 설정을 불러오고, 명령/리스너 후크를 등록합니다.
      */
     @Override
     public void onEnable() {
@@ -61,7 +61,7 @@ public final class AddNavigation extends JavaPlugin {
     }
 
     /**
-     * Disables the plugin and releases all runtime resources.
+     * 플러그인을 비활성화하고 모든 런타임 리소스를 해제합니다.
      */
     @Override
     public void onDisable() {
@@ -80,7 +80,7 @@ public final class AddNavigation extends JavaPlugin {
     }
 
     /**
-     * Returns the public API entry point.
+     * 공개 API 진입점을 반환합니다.
      *
      * @return API instance
      */
@@ -89,7 +89,7 @@ public final class AddNavigation extends JavaPlugin {
     }
 
     /**
-     * Reloads config.yml and refreshes cached runtime values.
+     * config.yml 파일을 다시 로드하고 캐시된 런타임 값을 새로 고칩니다.
      */
     public void reloadAll() {
         reloadConfig();
@@ -101,9 +101,9 @@ public final class AddNavigation extends JavaPlugin {
     }
 
     /**
-     * Reads a message path from config.yml and applies color codes.
+     * config.yml 파일에서 메시지 경로를 읽어 색상 코드를 적용합니다.
      *
-     * @param path message key inside the messages section
+     * @param path 메시지 섹션 내의 메시지 키
      * @return colored message
      */
     public String msg(String path) {
@@ -111,9 +111,9 @@ public final class AddNavigation extends JavaPlugin {
     }
 
     /**
-     * Translates legacy color codes using '&'.
+     * '&'를 사용하여 기존 색상 코드를 변환합니다.
      *
-     * @param value raw message text
+     * @param value 원래 메세지 텍스트
      * @return colored text
      */
     public String colorize(String value) {

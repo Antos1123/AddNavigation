@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 
 /**
- * Stored navigation destination.
+ * 저장된 내비게이션 목적지.
  *
  * @param name point name
  * @param worldName world name
@@ -15,7 +15,7 @@ import org.bukkit.World;
 public record NavigationPoint(String name, String worldName, double x, double y, double z) {
 
     /**
-     * Converts this point to a Bukkit location.
+     * 이 지점을 Bukkit 위치로 변환합니다.
      *
      * @param world target world
      * @return exact block coordinate location
@@ -25,9 +25,9 @@ public record NavigationPoint(String name, String worldName, double x, double y,
     }
 
     /**
-     * Converts this point to a Bukkit location with a configurable height offset.
+     * 이 지점을 높이 오프셋을 설정할 수 있는 Bukkit 위치로 변환합니다.
      * <p>
-     * This method is used by the renderer to float arrow markers above the path.
+     * 이 메서드는 렌더러가 표시 위치를 오프셋해야 할 때 사용됩니다.
      *
      * @param world target world
      * @param heightOffset extra vertical offset

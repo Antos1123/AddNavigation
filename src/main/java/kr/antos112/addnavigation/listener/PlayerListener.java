@@ -7,13 +7,13 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
- * Cleans up active navigation sessions on player disconnects or world changes.
+ * 플레이어 연결이 끊기거나 월드가 변경될 때 활성 탐색 세션을 정리합니다.
  */
 public final class PlayerListener implements Listener {
     private final NavigationManager manager;
 
     /**
-     * Creates a listener that delegates cleanup to the navigation manager.
+     * 정리 작업을 내비게이션 manager에게 위임하는 리스너를 생성합니다.
      *
      * @param manager navigation manager
      */
@@ -22,18 +22,18 @@ public final class PlayerListener implements Listener {
     }
 
     /**
-     * Stops navigation when a player leaves the server.
+     * 플레이어가 서버를 떠나면 탐색을 중지합니다.
      */
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        manager.stopNavigation(event.getPlayer());
+        manager.stopNavigationSilently(event.getPlayer());
     }
 
     /**
-     * Stops navigation when a player changes worlds.
+     * 플레이어가 월드를 변경할 때 탐색을 중지합니다.
      */
     @EventHandler
     public void onChangedWorld(PlayerChangedWorldEvent event) {
-        manager.stopNavigation(event.getPlayer());
+        manager.stopNavigationSilently(event.getPlayer());
     }
 }

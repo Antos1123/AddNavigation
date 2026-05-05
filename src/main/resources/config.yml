@@ -1,16 +1,29 @@
 
 navigation:
   # 목적지에서 이 거리(m) 이내로 들어오면 자동 종료됩니다.
-  auto-stop-distance: 5.0
+  auto-stop-distance: 2.0
 
-  # 경로 재계산 주기(틱). 낮을수록 반응이 빠르지만 CPU 사용량이 늘어납니다.
-  repath-interval-ticks: 10
+  # 매 틱 유지보수할 최대 내비게이션 세션 수입니다.
+  # 1000명 기준 250이면 전체 세션을 약 4틱마다 한 번씩 확인합니다.
+  session-checks-per-tick: 250
+
+  # 매 틱 실행할 최대 A* 계산 수입니다. 높을수록 반응은 빠르지만 순간 TPS 부하가 커집니다.
+  max-pathfinds-per-tick: 3
+
+  # ItemDisplay 방향 표시 업데이트 주기입니다.
+  render-interval-ticks: 4
+
+  # 경로 재계산 주기(틱). 1000명대 서버에서는 너무 낮게 잡지 않는 것이 좋습니다.
+  repath-interval-ticks: 80
 
   # 플레이어가 이 거리(m) 이상 이동했을 때 경로를 다시 계산합니다.
-  repath-move-threshold: 1.0
+  repath-move-threshold: 3.0
 
-  # A* 탐색에서 허용하는 최대 노드 수입니다.
-  max-search-nodes: 12000
+  # 경로를 찾지 못했을 때 메시지를 다시 보낼 최소 간격입니다.
+  path-not-found-cooldown-ticks: 100
+
+  # A* 탐색에서 허용하는 최대 노드 수입니다. 큰 미로일수록 높게 잡아야 합니다.
+  max-search-nodes: 200000
 
   # 한 칸 위로 올라갈 수 있는 최대 높이입니다.
   max-step-height: 1
@@ -18,28 +31,46 @@ navigation:
   # 아래로 떨어질 수 있는 최대 높이입니다.
   max-drop-height: 3
 
+  # 시작 좌표가 정확히 걷는 칸이 아닐 때 주변에서 걷기 가능한 칸을 찾는 반경입니다.
+  start-search-radius: 2
+
+  # 목적지 좌표 주변에서 걷기 가능한 칸을 목표 후보로 찾는 반경입니다.
+  # 아머스탠드, NPC, 장식 블록처럼 정확한 좌표가 막혀 있어도 주변 길로 안내합니다.
+  goal-search-radius: 6
+
+  # 시작/목적지 후보를 찾을 때 위아래로 확인할 높이입니다.
+  vertical-search-range: 4
+
 display:
-  # 경로를 표시할 때 사용할 화살표 문자입니다.
-  # 예: ▶, ➤, ➜
-  arrow-character: "➤"
+  # 방향 안내에 사용할 ItemDisplay 아이템입니다.
+  item: ARROW
 
-  # 화살표 색상(Adventure 색상 이름 또는 HEX)
-  color: "#7CFF4A"
+  # 리소스팩 커스텀 모델을 쓸 때만 1 이상으로 설정합니다.
+  custom-model-data: 0
 
-  # 화살표가 표시되는 높이 오프셋입니다. 플레이어 발 위치 기준입니다.
-  height-offset: 1.35
+  # 아이템이 표시되는 높이 오프셋입니다. 플레이어 발 위치 기준입니다.
+  height-offset: 0.12
 
-  # 화살표 간격(블록 단위). 너무 작으면 엔티티가 많아집니다.
-  arrow-spacing: 1.75
+  # 아이템을 플레이어 앞 몇 블록 지점에 띄울지 설정합니다.
+  distance: 2.25
 
-  # 한 번에 렌더링할 최대 화살표 수입니다.
-  max-arrows: 32
+  # 현재 위치에서 이 거리 이상 떨어진 다음 경로 지점을 바라봅니다.
+  look-ahead-distance: 2.0
 
-  # TextDisplay 배경 투명 처리 여부
-  transparent-background: true
+  # ItemDisplay 크기입니다.
+  scale: 0.85
 
-  # 그림자 제거
-  shadowed: false
+  # 아이템을 XZ 평면에 눕히는 X축 회전값입니다. 서 있으면 90 또는 -90으로 조절하세요.
+  pitch-offset: 90.0
+
+  # 아이템 모델의 앞 방향이 어긋나면 90, 180, -90 등으로 보정합니다.
+  yaw-offset: 0.0
+
+  # 클라이언트 표시 범위입니다.
+  view-range: 16.0
+
+  # 아이템에 발광 효과를 줄지 설정합니다.
+  glowing: false
 
 database:
   # 저장 방식: sqlite
@@ -54,13 +85,14 @@ messages:
   no-permission: "&c권한이 없습니다."
   player-only: "&c플레이어만 사용할 수 있습니다."
   not-found: "&c대상을 찾을 수 없습니다."
-  point-not-found: "&c해당 네비게이션 이름을 찾을 수 없습니다."
-  point-exists: "&c이미 같은 이름의 네비게이션이 있습니다."
+  point-not-found: "&c해당 내비게이션 이름을 찾을 수 없습니다."
+  point-exists: "&c이미 같은 이름의 내비게이션이 있습니다."
   path-not-found: "&c경로를 찾지 못했습니다"
   saved: "&a저장했습니다."
   removed: "&a삭제했습니다."
-  started: "&a네비게이션을 시작했습니다."
-  stopped: "&e네비게이션을 종료했습니다."
+  started: "&a내비게이션을 시작했습니다."
+  stopped: "&e내비게이션을 종료했습니다."
   completed: "&a목적지에 도착했습니다."
   world-mismatch: "&c플레이어 월드와 목적지 월드가 다릅니다."
   reload: "&a설정을 다시 불러왔습니다."
+  action-bar: "&a남은 거리 : %distance%m"

@@ -2,28 +2,31 @@ package kr.antos112.addnavigation.api;
 
 import kr.antos112.addnavigation.model.NavigationPoint;
 import org.bukkit.Location;
-import org.bukkit.entity.TextDisplay;
+import org.bukkit.entity.ItemDisplay;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 /**
- * Runtime state for a single active navigation session.
+ * 단일 활성 navigation 세션에 대한 런타임 상태입니다.
  * <p>
- * This object keeps track of the target point, spawned arrow markers,
- * and cached path data used by the renderer.
+ * 이 객체는 navigation 지점과 생성 방향 표시기를 추적합니다,
+ * 그리고 렌더러에서 사용하는 캐시된 경로 데이터입니다.
  */
 public final class NavigationSession {
     private final UUID playerId;
     private final NavigationPoint target;
-    private final List<TextDisplay> markers = new ArrayList<>();
+    private ItemDisplay indicator;
     private List<Location> currentPath = List.of();
     private Location lastPathOrigin;
     private long lastPathTick;
+    private long lastRenderTick;
+    private long lastPathFailureTick;
+    private int pathProgressIndex;
+    private boolean pathQueued;
 
     /**
-     * Creates a new session for the given player and destination.
+     * 지정된 플레이어와 목적지에 대한 새 세션을 생성합니다.
      *
      * @param playerId player unique ID
      * @param target destination point
@@ -34,7 +37,7 @@ public final class NavigationSession {
     }
 
     /**
-     * Returns the unique ID of the player that owns this session.
+     * 이 세션을 소유한 플레이어의 UUID를 반환합니다.
      *
      * @return player UUID
      */
@@ -43,7 +46,7 @@ public final class NavigationSession {
     }
 
     /**
-     * Returns the target navigation point.
+     * 목표 내비게이션 지점을 반환합니다.
      *
      * @return target point
      */
@@ -52,16 +55,25 @@ public final class NavigationSession {
     }
 
     /**
-     * Returns the arrow marker entities currently shown to the player.
+     * 플레이어에게 현재 표시되는 경로 표시를 반환합니다.
      *
-     * @return live marker list
+     * @return live indicator, or null when not spawned
      */
-    public List<TextDisplay> getMarkers() {
-        return markers;
+    public ItemDisplay getIndicator() {
+        return indicator;
     }
 
     /**
-     * Returns the most recently computed path.
+     * 플레이어에게 현재 표시되는 경로 표시를 저장합니다.
+     *
+     * @param indicator live indicator, or null when cleared
+     */
+    public void setIndicator(ItemDisplay indicator) {
+        this.indicator = indicator;
+    }
+
+    /**
+     * 가장 최근에 계산된 경로를 반환합니다.
      *
      * @return immutable path snapshot
      */
@@ -70,16 +82,17 @@ public final class NavigationSession {
     }
 
     /**
-     * Replaces the cached path with a new snapshot.
+     * 캐시된 경로를 새 스냅샷으로 바꿉니다.
      *
      * @param currentPath new path list
      */
     public void setCurrentPath(List<Location> currentPath) {
         this.currentPath = currentPath == null ? List.of() : List.copyOf(currentPath);
+        this.pathProgressIndex = 0;
     }
 
     /**
-     * Returns the location used as the last path recalculation origin.
+     * 마지막 경로 재계산 시작점으로 사용된 위치를 반환합니다.
      *
      * @return last path origin, or null if not set
      */
@@ -88,7 +101,7 @@ public final class NavigationSession {
     }
 
     /**
-     * Updates the origin used for path recalculation distance checks.
+     * 경로 재계산 거리 검사에 사용되는 원점을 업데이트합니다.
      *
      * @param lastPathOrigin origin location
      */
@@ -97,7 +110,7 @@ public final class NavigationSession {
     }
 
     /**
-     * Returns the tick value when the path was last recalculated.
+     * 경로가 마지막으로 재계산된 시점의 틱 값을 반환합니다.
      *
      * @return last recalculation tick
      */
@@ -106,11 +119,83 @@ public final class NavigationSession {
     }
 
     /**
-     * Stores the tick value when the path was recalculated.
+     * 경로가 다시 계산된 시점의 틱 값을 저장합니다.
      *
      * @param lastPathTick tick counter
      */
     public void setLastPathTick(long lastPathTick) {
         this.lastPathTick = lastPathTick;
+    }
+
+    /**
+     * 경로가 마지막으로 렌더링된 시점의 틱 값을 반환합니다.
+     *
+     * @return last render tick
+     */
+    public long getLastRenderTick() {
+        return lastRenderTick;
+    }
+
+    /**
+     * 인디케이터가 렌더링된 시점의 틱 값을 저장합니다.
+     *
+     * @param lastRenderTick render tick
+     */
+    public void setLastRenderTick(long lastRenderTick) {
+        this.lastRenderTick = lastRenderTick;
+    }
+
+    /**
+     * 가장 최근에 경로 오류 알림이 전송된 시점을 반환합니다.
+     *
+     * @return last path failure notification tick
+     */
+    public long getLastPathFailureTick() {
+        return lastPathFailureTick;
+    }
+
+    /**
+     * 경로 오류 알림이 전송된 시점을 기록합니다.
+     *
+     * @param lastPathFailureTick failure notification tick
+     */
+    public void setLastPathFailureTick(long lastPathFailureTick) {
+        this.lastPathFailureTick = lastPathFailureTick;
+    }
+
+    /**
+     * 방향 렌더러에서 사용되는 현재 segment index를 반환합니다.
+     *
+     * @return current path progress segment
+     */
+    public int getPathProgressIndex() {
+        return pathProgressIndex;
+    }
+
+    /**
+     * 방향 렌더러에서 사용되는 현재 segment index를 저장합니다.
+     *
+     * @param pathProgressIndex current path progress segment
+     */
+    public void setPathProgressIndex(int pathProgressIndex) {
+        this.pathProgressIndex = Math.max(0, pathProgressIndex);
+    }
+
+    /**
+     * 이 세션이 이미 대기 중인 경로 계산이 있는지 여부를 반환합니다.
+     *
+     * @return true when a path request is queued
+     */
+    public boolean isPathQueued() {
+        return pathQueued;
+    }
+
+    /**
+     * 이 세션이 대기 중인 경로 계산 대기열에 있는지 여부를 표시합니다.
+     *
+     * @param pathQueued true when queued
+     */
+    public void setPathQueued(boolean pathQueued) {
+        this.pathQueued = pathQueued;
     }
 }
