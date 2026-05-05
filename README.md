@@ -5,6 +5,8 @@ Paper 1.21.4 기반 A* 내비게이션 플러그인입니다.
 플레이어에게 목적지까지의 경로를 계산하고, 플레이어 앞의 `ItemDisplay` 하나로 다음 진행 방향을 안내합니다.
 복잡한 미로형 지형, 아머스탠드/NPC 목적지, 대규모 동시 접속 환경을 고려해 경로 계산과 렌더링이 틱 단위로 분산되도록 설계되어 있습니다.
 
+[최신 버전](https://release-assets.githubusercontent.com/github-production-release-asset/1228638070/83b1797d-bf0d-4785-9e50-3c0a421daae9?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-05-05T10%3A53%3A36Z&rscd=attachment%3B+filename%3DAddNavigation-1.0.0.jar&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-05-05T09%3A52%3A58Z&ske=2026-05-05T10%3A53%3A36Z&sks=b&skv=2018-11-09&sig=Te6f2PkVoCd%2BUPhL2exG22qNU%2FPbhR%2FcGF4KI4gBcTg%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc3Nzk3NTA3OSwibmJmIjoxNzc3OTc0Nzc5LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.Jua0nfO-wuWidt1oDtpdWHjegzZ4OPxOrfXe6yFX73I&response-content-disposition=attachment%3B%20filename%3DAddNavigation-1.0.0.jar&response-content-type=application%2Foctet-stream)
+
 ## 주요 기능
 
 - A* 기반 경로 탐색
