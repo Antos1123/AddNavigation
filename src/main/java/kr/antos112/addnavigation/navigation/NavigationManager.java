@@ -6,6 +6,7 @@ import kr.antos112.addnavigation.api.NavigationSession;
 import kr.antos112.addnavigation.model.NavigationPoint;
 import kr.antos112.addnavigation.model.NavigationSettings;
 import kr.antos112.addnavigation.storage.NavigationRepository;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -301,8 +302,7 @@ public final class NavigationManager implements AddNavigationAPI {
         Location playerLocation = player.getLocation();
         Location goal = target.toLocation(world, 0.0);
         double distanceSquared = playerLocation.distanceSquared(goal);
-        player.sendActionBar(plugin.msg("action-bar").replaceAll("%distance%", distanceSquared + ""));
-
+        player.sendActionBar(Component.text(plugin.msg("action-bar").replaceAll("%distance%", Math.round(playerLocation.distance(goal)) + "")));
         if (distanceSquared <= settings.autoStopDistance() * settings.autoStopDistance()) {
             complete(player);
             return false;
