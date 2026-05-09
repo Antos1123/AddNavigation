@@ -7,6 +7,8 @@ Paper 1.21.4 기반 A* 내비게이션 플러그인입니다.
 
 [**[ 최신 버전 다운로드 ]**](https://github.com/Antos1123/AddNavigation/releases/latest)
 
+[**[ 오류 사항 / 건의 사항 제보 ]**](https://discord.gg/pEasN3WyTq)
+
 ## 주요 기능
 
 - A* 기반 경로 탐색
