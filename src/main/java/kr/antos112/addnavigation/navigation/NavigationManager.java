@@ -220,6 +220,10 @@ public final class NavigationManager implements AddNavigationAPI {
         return Optional.ofNullable(sessions.get(player.getUniqueId()));
     }
 
+    public Optional<NavigationSession> getSession(UUID playerId) {
+        return Optional.ofNullable(sessions.get(playerId));
+    }
+
     /**
      * config.yml에 의존하는 모든 런타임 객체를 다시 로드합니다.
      */
@@ -312,7 +316,7 @@ public final class NavigationManager implements AddNavigationAPI {
             queuePath(session);
         }
 
-        if (!session.getCurrentPath().isEmpty() && shouldRender(session)) {
+        if (shouldRender(session)) {
             renderer.render(player, session, session.getCurrentPath());
             session.setLastRenderTick(tickCounter);
         }
@@ -387,7 +391,7 @@ public final class NavigationManager implements AddNavigationAPI {
             processed++;
 
             if (path.isEmpty()) {
-                renderer.clearAll(session, player);
+                renderer.render(player, session, path);
                 notifyPathNotFound(player, session);
                 continue;
             }

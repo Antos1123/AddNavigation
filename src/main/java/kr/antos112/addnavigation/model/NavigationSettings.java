@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
- * config.yml에서 로드되는 변경 불가능한 런타임 설정입니다.
+ * Runtime settings loaded from config.yml.
  *
  * @param autoStopDistance distance in blocks where navigation stops automatically
  * @param sessionChecksPerTick maximum active sessions maintained per server tick
@@ -29,6 +29,9 @@ import org.bukkit.configuration.file.FileConfiguration;
  * @param indicatorYawOffset yaw offset for custom item models
  * @param indicatorViewRange client-side display view range
  * @param indicatorGlowing whether the indicator entity should glow
+ * @param betterHudEnabled whether BetterHud compass integration is enabled
+ * @param betterHudIcon BetterHud compass custom icon id
+ * @param betterHudHeightOffset vertical offset used for the destination pointer
  */
 public record NavigationSettings(
         double autoStopDistance,
@@ -53,10 +56,13 @@ public record NavigationSettings(
         double indicatorPitchOffset,
         double indicatorYawOffset,
         double indicatorViewRange,
-        boolean indicatorGlowing
+        boolean indicatorGlowing,
+        boolean betterHudEnabled,
+        String betterHudIcon,
+        double betterHudHeightOffset
 ) {
     /**
-     * 플러그인 구성에서 설정 스냅샷을 생성합니다.
+     * Creates a settings snapshot from plugin configuration.
      *
      * @param config source configuration
      * @return loaded settings
@@ -85,19 +91,26 @@ public record NavigationSettings(
                 config.getDouble("display.pitch-offset", 90.0),
                 config.getDouble("display.yaw-offset", 0.0),
                 config.getDouble("display.view-range", 16.0),
-                config.getBoolean("display.glowing", false)
+                config.getBoolean("display.glowing", false),
+                config.getBoolean("betterhud.enabled", true),
+                config.getString("betterhud.icon", "addnavigation_destination"),
+                config.getDouble("betterhud.height-offset", 1.2)
         );
     }
 
     /**
-     * 설정된 경로 표시 아이템을 확인합니다.
+     * Resolves the configured path indicator item material.
      *
      * @return valid item material, or ARROW when the config value is invalid
      */
     public Material resolvedIndicatorMaterial() {
-        Material material = Material.matchMaterial(indicatorMaterial == null ? "" : indicatorMaterial);
+        return resolveMaterial(indicatorMaterial, Material.ARROW);
+    }
+
+    private Material resolveMaterial(String materialName, Material fallback) {
+        Material material = Material.matchMaterial(materialName == null ? "" : materialName);
         if (material == null || !material.isItem()) {
-            return Material.ARROW;
+            return fallback;
         }
         return material;
     }

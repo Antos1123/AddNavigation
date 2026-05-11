@@ -2,6 +2,7 @@ package kr.antos112.addnavigation;
 
 import kr.antos112.addnavigation.api.AddNavigationAPI;
 import kr.antos112.addnavigation.command.NavigationCommand;
+import kr.antos112.addnavigation.hook.BetterHudNavigationHook;
 import kr.antos112.addnavigation.listener.PlayerListener;
 import kr.antos112.addnavigation.model.NavigationSettings;
 import kr.antos112.addnavigation.navigation.NavigationManager;
@@ -48,6 +49,7 @@ public final class AddNavigation extends JavaPlugin {
         repository.init();
 
         navigationManager = new NavigationManager(this, repository, settings);
+        registerBetterHudHook();
 
         PluginCommand navCommand = Objects.requireNonNull(getCommand("navigation"), "navigation command missing");
         NavigationCommand executor = new NavigationCommand(this, navigationManager);
@@ -88,6 +90,10 @@ public final class AddNavigation extends JavaPlugin {
         return navigationManager;
     }
 
+    public NavigationSettings getNavigationSettings() {
+        return settings;
+    }
+
     /**
      * config.yml 파일을 다시 로드하고 캐시된 런타임 값을 새로 고칩니다.
      */
@@ -118,5 +124,21 @@ public final class AddNavigation extends JavaPlugin {
      */
     public String colorize(String value) {
         return org.bukkit.ChatColor.translateAlternateColorCodes('&', value == null ? "" : value);
+    }
+
+    private void registerBetterHudHook() {
+        if (!settings.betterHudEnabled()) {
+            return;
+        }
+        if (!getServer().getPluginManager().isPluginEnabled("BetterHud") || !BetterHudNavigationHook.canLoad()) {
+            getLogger().warning("BetterHud not found. Destination HUD pointers are disabled.");
+            return;
+        }
+
+        try {
+            new BetterHudNavigationHook(this, navigationManager).register();
+        } catch (Throwable throwable) {
+            getLogger().warning("Failed to hook BetterHud: " + throwable.getMessage());
+        }
     }
 }
