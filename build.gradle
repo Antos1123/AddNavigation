@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'kr.antos112.addnavigation'
-version = '1.0.0'
+version = '1.0.1'
 
 java {
     toolchain {
@@ -13,10 +13,12 @@ java {
 }
 
 repositories {
-    maven {
-        url = 'https://repo.papermc.io/repository/maven-public/'
-    }
     mavenCentral()
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+
+    maven {
+        url = 'https://jitpack.io'
+    }
 }
 
 publishing {
@@ -29,6 +31,9 @@ publishing {
 
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT'
+    compileOnly 'io.github.toxicity188:BetterHud-standard-api:1.14.1'
+    compileOnly 'io.github.toxicity188:BetterHud-bukkit-api:1.14.1'
+    compileOnly 'io.github.toxicity188:BetterCommand:1.2'
 }
 
 tasks.withType(JavaCompile) {
